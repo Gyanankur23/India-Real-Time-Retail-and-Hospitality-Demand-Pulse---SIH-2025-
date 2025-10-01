@@ -71,33 +71,26 @@ if page == " Submit Pulse":
         crowd_index = st.slider("Crowd Index (0 = Empty, 10 = Overwhelmed)", 0, 10)
         submitted = st.form_submit_button("Submit")
 
-    if submitted:
-        new_entry = pd.DataFrame([{
-            "timestamp": datetime.datetime.now(),
-            "region": region,
-            "sector": sector,
-            "visitor_count": visitor_count,
-            "top_items": top_items,
-            "queue_time": queue_time,
-            "payment_modes": ",".join(payment_modes),
-            "crowd_index": crowd_index
-        }])
-        updated_data = pd.concat([data, new_entry], ignore_index=True)
-        save_data(updated_data)
-        st.success("✅ Data submitted successfully!")
-
+    
 # -------------------- PAGE 2: DASHBOARD --------------------
 elif page == " Sector Dashboard":
     st.title(" Sector-Wise Demand Dashboard")
     sector = st.selectbox("Select Sector", SECTORS)
-    filtered = data[data["sector"] == sector]
+    filtered = pd.read_csv(DATA_FILE)  # Reload latest data
+    filtered = filtered[filtered["sector"] == sector]
 
     col1, col2 = st.columns(2)
     with col1:
         st.metric("Average Crowd Index", round(filtered["crowd_index"].mean(), 2))
         st.metric("Average Queue Time", round(filtered["queue_time"].mean(), 2))
     with col2:
-        fig = px.histogram(filtered, x="region", y="visitor_count", color="region", title="Visitor Count by Region")
+        fig = px.histogram(
+            filtered,
+            x="region",
+            y="visitor_count",
+            color="region",
+            title="Visitor Count by Region"
+        )
         st.plotly_chart(fig, use_container_width=True)
 
     st.subheader(" Crowd Heatmap")
