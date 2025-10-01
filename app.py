@@ -184,15 +184,26 @@ else:
 
 # -------------------- PAGE 5: EXPORT --------------------
 elif page == "Export":
-    st.title(" Export Data for Policy Teams")
+    st.title("Export Data for Policy Teams")
     export_format = st.radio("Choose Format", ["CSV", "Excel"])
+    
     if export_format == "CSV":
-        st.download_button("Download CSV", data.to_csv(index=False), file_name="pulse_data.csv")
+        st.download_button(
+            label="Download CSV",
+            data=data.to_csv(index=False),
+            file_name="pulse_data.csv",
+            mime="text/csv"
+        )
     else:
         output = BytesIO()
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
             data.to_excel(writer, index=False, sheet_name='PulseData')
-        st.download_button("Download Excel", output.getvalue(), file_name="pulse_data.xlsx")
+        st.download_button(
+            label="Download Excel",
+            data=output.getvalue(),
+            file_name="pulse_data.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
 # -------------------- FOOTER --------------------
 st.markdown("---")
