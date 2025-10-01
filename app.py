@@ -171,7 +171,9 @@ elif page == " Recent Submissions":
 
 # -------------------- FOOTER --------------------
 st.markdown("---")
-st.caption("Built for India’s Smart Governance • Privacy-Safe • Scalable • Open Source")                popup=f"{row['region']} ({row['crowd_index']})",
+st.caption("Built for India’s Smart Governance • Privacy-Safe • Scalable • Open Source")
+
+st.title(" Real-Time Surge & Anomaly Alerts")             popup=f"{row['region']} ({row['crowd_index']})",
                 color="red",
                 fill=True
             ).add_to(m)
