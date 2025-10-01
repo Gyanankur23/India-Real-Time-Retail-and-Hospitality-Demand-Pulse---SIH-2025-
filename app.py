@@ -168,10 +168,11 @@ elif page == "Recent Submissions":
 
 # -------------------- FOOTER --------------------
 st.markdown("---")
-st.caption("Built for India’s Smart Governance • Privacy-Safe • Scalable • Open Source")    region = st.selectbox("Your Region", REGIONS)
-    sector = st.selectbox("Service Type", SECTORS)
-    latest = data[(data["region"] == region) & (data["sector"] == sector)].sort_values("timestamp", ascending=False).head(1)
+st.caption("Built for India’s Smart Governance • Privacy-Safe • Scalable • Open Source")
 
+region = st.selectbox("Your Region", REGIONS)
+sector = st.selectbox("Service Type", SECTORS)
+latest = data[(data["region"] == region) & (data["sector"] == sector)].sort_values("timestamp", ascending=False).head(1)
     if latest.empty:
         st.info("No recent data available for your selection.")
     else:
