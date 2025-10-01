@@ -162,48 +162,9 @@ elif page == " Export":
         st.download_button("Download Excel", output.getvalue(), file_name="pulse_data.xlsx")
 
 # -------------------- PAGE 6: RECENT SUBMISSIONS --------------------
-elif page == "Recent Submissions":
-    st.title("Recent Pulse Submissions")
+elif page == " Recent Submissions":
+    st.title(" Recent Pulse Submissions")
     st.dataframe(data.sort_values("timestamp", ascending=False).head(20))
-
-# -------------------- FOOTER --------------------
-st.markdown("---")
-st.caption("Built for India’s Smart Governance • Privacy-Safe • Scalable • Open Source")
-
-region = st.selectbox("Your Region", REGIONS)
-sector = st.selectbox("Service Type", SECTORS)
-latest = data[(data["region"] == region) & (data["sector"] == sector)].sort_values("timestamp", ascending=False).head(1)
-if latest.empty:
-        st.info("No recent data available for your selection.")
-else:
-        row = latest.iloc[0]
-        st.metric("Crowd Index", row["crowd_index"])
-        st.metric("Queue Time", f"{row['queue_time']} mins")
-        st.write(f"Top Requests: {row['top_items']}")
-        st.write(f"Payment Modes: {row['payment_modes']}")
-
-# -------------------- PAGE 5: EXPORT --------------------
-elif page == "Export":
-    st.title("Export Data for Policy Teams")
-    export_format = st.radio("Choose Format", ["CSV", "Excel"])
-    
-    if export_format == "CSV":
-        st.download_button(
-            label="Download CSV",
-            data=data.to_csv(index=False),
-            file_name="pulse_data.csv",
-            mime="text/csv"
-        )
-    else:
-        output = BytesIO()
-        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            data.to_excel(writer, index=False, sheet_name='PulseData')
-        st.download_button(
-            label="Download Excel",
-            data=output.getvalue(),
-            file_name="pulse_data.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
 
 # -------------------- FOOTER --------------------
 st.markdown("---")
