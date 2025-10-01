@@ -175,7 +175,7 @@ sector = st.selectbox("Service Type", SECTORS)
 latest = data[(data["region"] == region) & (data["sector"] == sector)].sort_values("timestamp", ascending=False).head(1)
 if latest.empty:
         st.info("No recent data available for your selection.")
-    else:
+else:
         row = latest.iloc[0]
         st.metric("Crowd Index", row["crowd_index"])
         st.metric("Queue Time", f"{row['queue_time']} mins")
